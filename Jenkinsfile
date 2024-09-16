@@ -1,17 +1,18 @@
+
 pipeline {
     agent any
     tools{
         maven 'M2_HOME'
     }
     environment {
-        registry = '905418036445.dkr.ecr.us-east-1.amazonaws.com/devops-repository'
-        registryCredential = 'jenkins-ecr'
-        dockerimage = ''
-    }
+    registry = '905418036445.dkr.ecr.us-east-1.amazonaws.com/devops_repository'
+    registryCredential = 'jenkins-ecr'
+    dockerimage = ''
+  }
     stages {
         stage('Checkout'){
             steps{
-                git branch: 'main', url: 'https://github.com/adoukpo/helloworld_jan_22.git'
+                git branch: 'main', url: 'https://github.com/Hermann90/helloworld_jan_22.git'
             }
         }
         stage('Code Build') {
@@ -31,12 +32,12 @@ pipeline {
                 } 
             }
         }
-        stage('Deploy image') {
+        stage('Deploy image'){
             steps{
-                script{ 
-                    docker.withRegistry("https://"+registry,"ecr:us-east-1:"+registryCredential) {
+                script{
+                   docker.withRegistry("https://"+registry,"ecr:us-east-1:"+registryCredential) {
                         dockerImage.push()
-                    }
+                   }
                 }
             }
         }  
